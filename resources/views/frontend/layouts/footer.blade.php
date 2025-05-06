@@ -1,14 +1,14 @@
 <!-- info section -->
 <style>
   /* Ensure all text in info_section is black */
-  .info_section, 
-  .info_section h4, 
-  .info_section p, 
-  .info_section a, 
+  .info_section,
+  .info_section h4,
+  .info_section p,
+  .info_section a,
   .info_section span,
   .info_section i,
   .info_section .input-group-text {
-    color: black !important;
+    color: rgb(250, 250, 250) !important;
   }
 
   /* Example of custom styling for unsubscribe button */
@@ -19,7 +19,7 @@
   }
 </style>
 
-<section class="info_section layout_padding2" style="background-color: #e8f5e9">
+<section class="info_section layout_padding2" style="background-color: #052561">
   <div class="container">
     <div class="row">
       <div class="col-md-6 col-lg-3 info_col">
@@ -49,7 +49,7 @@
             </a>
             </div>
           </div>
-          <!-- 
+          <!--
             <div class="info_social">
             @if(!empty($Profile->social_media_links))
               <i class="fa fa-facebook" aria-hidden="true"></i>
@@ -60,7 +60,7 @@
             <i class="fa fa-facebook" aria-hidden="true"></i>
             <span>Social Media Links</span>
             @endif
-            </div> 
+            </div>
             -->
           </div>
         @endforeach
@@ -145,7 +145,7 @@
         <input type="email" name="email" class="form-control" placeholder="Enter email" required />
         </div>
         <button type="submit" class="btn btn-primary">
-        <i class="fas fa-paper-plane"></i> Subscribe
+         Subscribe
         </button>
       </form>
     @endif
