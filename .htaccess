@@ -1,5 +1,9 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    
+    # Allow direct access to video files
+    RewriteCond %{REQUEST_URI} \.(mp4|webm|ogg)$ [NC]
+    RewriteRule ^ - [L]
 
     # Remove the 'mi', 'wd', or 'rs' prefix from requests for assets (css, js, images)
     RewriteCond %{REQUEST_URI} ^/(mi|wd|rs)/(css|js|images|jpg|jpeg|png|gif|svg|woff2|woff|ttf|eot|otf) [NC]
@@ -27,5 +31,10 @@
     # Handle Authorization Header (if needed)
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+    
+    AddType video/mp4 .mp4
+AddType video/webm .webm
+AddType video/ogg .ogg
+
 
 </IfModule>

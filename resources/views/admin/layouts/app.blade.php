@@ -4,29 +4,38 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="{{ asset('assets/admin-assets/img/Admin-Panel logo.jpg') }}">
+    <link rel="icon" type="image/png" href="{{ asset('public/assets/admin-assets/img/Admin-Panel logo.jpg') }}">
     <title>Service-Management :: Administrative Panel</title>
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{ asset('./assets/admin-assets/plugins/fontawesome-free/css/all.min.css') }}">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{{ asset('./assets/admin-assets/css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/assets/admin-assets/plugins/fontawesome-free/css/all.min.css') }}">
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-        integrity="..." crossorigin="anonymous" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs4.min.css" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{ asset('public/assets/admin-assets/css/adminlte.min.css') }}">
+
+    <!-- Add to the <head> section -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <!-- Bootstrap CSS in head -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- <link rel="stylesheet" href="{{ asset('admin-assets/plugins/dropzone/min/dropzone.min.css') }}"> -->
     <!-- Summernote -->
-    <link rel="stylesheet" href="{{ asset('./assets/admin-assets/plugins/summernote/summernote.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/assets/admin-assets/plugins/summernote/summernote.min.css') }}">
 
-    <link rel="stylesheet" href="{{ asset('./assets/admin-assets/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/assets/admin-assets/plugins/select2/css/select2.min.css') }}">
 
-    <link rel="stylesheet" href="{{ asset('./assets/admin-assets/css/datetimepicker.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/assets/admin-assets/css/datetimepicker.css') }}">
 
-    <link rel="stylesheet" href="{{ asset('./assets/admin-assets/css/custom.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/assets/admin-assets/css/custom.css') }}">
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css">
@@ -45,7 +54,7 @@
                 <li class="nav-item d-flex align-items-center">
                 <li class="nav-item">
                     <a href="{{ route('admin.dashboard') }}" class="nav-link d-flex align-items-center">
-                        <img src="{{ asset('assets/admin-assets/img/home.ico') }}" alt="Home Icon"
+                        <img src="{{ asset('public/assets/admin-assets/img/home.ico') }}" alt="Home Icon"
                             style="width: 20px; height: 20px; margin-right: 10px;">
                         <strong class="ml-2">Home</strong>
                     </a>
@@ -97,7 +106,7 @@
                 <!-- User dropdown -->
                 <li class="nav-item dropdown">
                     <a class="nav-link p-0 pr-3" data-toggle="dropdown" href="#">
-                        <img src="{{ asset('./assets/admin-assets/img/avatar5.png') }}" class="img-circle elevation-2"
+                        <img src="{{ asset('public/assets/admin-assets/img/avatar5.png') }}" class="img-circle elevation-2"
                             width="40" height="40" alt="User Avatar">
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-3">
@@ -184,6 +193,36 @@
 
     <script src="{{ asset('./assets/admin-assets/plugins/dropzone/min/dropzone.min.js') }}"></script>
 
+    <!-- Required Bootstrap JS (usually at the end of body) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+
+    <!-- Add to the bottom of the body or in a script section -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <!-- Bootstrap JS and jQuery (required for modal functionality) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs4.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.summernote').summernote({
+                height: 250,
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview']]
+                ]
+            });
+        });
+    </script>
+
+
     <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>   -->
     <script>
@@ -202,6 +241,15 @@
                 reader.readAsDataURL(input.files[0]);
             }
         }
+    </script>
+
+    <script>
+        flatpickr("#holidays", {
+            mode: "multiple",        // Allow multiple dates to be selected
+            dateFormat: "Y-m-d",      // Format for storing dates
+            disableMobile: true,      // Disable mobile popup style
+            placeholder: "e.g. 2025-05-06"
+        });
     </script>
 
 

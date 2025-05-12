@@ -30,7 +30,7 @@
                         <td>
                             @if($section->image)
                                 @if($section->media_type === 'video')
-                                    <video width="120" height="80" controls>
+                                    <video width="120" height="80">
                                         <source src="{{ asset($section->image) }}" type="video/mp4">
                                         Your browser does not support the video tag.
                                     </video>

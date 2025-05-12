@@ -47,7 +47,7 @@
                 <label class="form-label">Current Media</label><br>
                 @if ($data->image)
                     @if ($data->media_type === 'video')
-                        <video width="240" height="160" controls>
+                        <video width="240" height="160">
                             <source src="{{ asset($data->image) }}" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>

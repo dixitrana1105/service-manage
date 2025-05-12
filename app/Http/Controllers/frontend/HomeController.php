@@ -15,6 +15,7 @@ use App\Models\WhatsappTicketFeature;
 use App\Models\Subscribers;
 use App\Models\WhatsAppPreview;
 use App\Models\WhatsappFlow;
+use App\Models\Broadcast;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -64,5 +65,11 @@ class HomeController extends Controller
         return view('frontend.index', compact('clients', 'teams', 'whySections',
          'services', 'companyProfile', 'aboutus', 'pages', 'banner', 'ticketFeatures', 'subscribers', 'preview', 'flow'));
     }
+    public function byDate($date)
+{
+    $broadcasts = Broadcast::whereDate('created_at', $date)->get();
+    $companyProfile = CompanyProfile::all();
+    return view('frontend.by-date', compact('broadcasts', 'date', 'companyProfile'));
+}
 
 }

@@ -1,9 +1,37 @@
+# <IfModule mod_rewrite.c>
+#     <IfModule mod_negotiation.c>
+#         Options -MultiViews -Indexes
+#     </IfModule>
+
+#     RewriteEngine On
+#     # Allow direct access to video files
+# RewriteCond %{REQUEST_URI} \.(mp4|webm|ogg)$ [NC]
+# RewriteRule ^ - [L]
+
+#     # Handle Authorization Header
+#     RewriteCond %{HTTP:Authorization} .
+#     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+#     # Redirect Trailing Slashes If Not A Folder...
+#     RewriteCond %{REQUEST_FILENAME} !-d
+#     RewriteCond %{REQUEST_URI} (.+)/$
+#     RewriteRule ^ %1 [L,R=301]
+
+#     # Send Requests To Front Controller...
+#     RewriteCond %{REQUEST_FILENAME} !-d
+#     RewriteCond %{REQUEST_FILENAME} !-f
+#     RewriteRule ^ index.php [L]
+# </IfModule>
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
     </IfModule>
 
     RewriteEngine On
+
+    # Allow direct access to video files
+    RewriteCond %{REQUEST_URI} \.(mp4|webm|ogg)$ [NC]
+    RewriteRule ^ - [L]
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
@@ -18,4 +46,9 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
+
+    # Optional: MIME types for video files
+    AddType video/mp4 .mp4
+    AddType video/webm .webm
+    AddType video/ogg .ogg
 </IfModule>

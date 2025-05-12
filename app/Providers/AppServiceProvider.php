@@ -3,13 +3,19 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Models\CompanyProfile;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Aboutus;
-use App\Models\Page;
-use App\Models\Subscribers;
-use App\Models\User;
-use App\Models\Service;
+use App\Models\{
+    CompanyProfile,
+    Aboutus,
+    Page,
+    Subscribers,
+    User,
+    Service,
+    DoctorAppointment,
+    Broadcast,
+    Feature,
+    FeatureDetailSection
+};
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,52 +32,82 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Fetch the first record from Companyinfo and Company tables
+        // Company Info
         $companyProfile = CompanyProfile::first();
+
+        // Pages
+        $pages = Page::where('showHome', 'Yes')->orderBy('name')->get();
+
+        // About Us
         $aboutus = Aboutus::first();
-        // Fetch all pages ordered by name
-        $pages = Page::where('showHome', 'Yes')->orderBy('name', 'asc')->get();
-        // Fetch all pages ordered by name
-        $servicepages = Page::where('showHome', 'Yes')->orderBy('name', 'asc')->get();
-        // Fetch all subscribers
+
+        // Subscribers
         $subscribers = Subscribers::all();
-        // Fetch all users
-        $user = User::where('created_at')->first();
-        // Fetch all users who registered in the last 30 days
+
+        // Services
+        $services = Service::all();
+
+        // Doctor Appointments
+        $doctorAppointment = DoctorAppointment::all();
+
+        // Users
+        $user = User::first(); // Or authenticated user if needed
         $recentUsers = User::where('created_at', '>=', now()->subDays(30))->get();
-        // Fetch all users who registered in the last 30 days
-        $recentUsersCount = $recentUsers->count();
-        // Fatch all data from Service table
-        $services = Service::all(); // Make sure slug is selected
-       
+
+        // Broadcasts
+        $broadcasts = Broadcast::latest()->take(5)->get();
+        // You can also pass the broadcasts to the view if needed
+        // $broadcasts = Broadcast::latest()->take(5)->get();
+        // Features
+        $features = Feature::all();
+        // Feature Details
+        $featureDetails = FeatureDetailSection::all();
 
 
-        // Share the variables globally with all views
+        // Share with all views
         view()->share([
+            // Company
             'companyProfile' => $companyProfile,
             'logoUrl' => $companyProfile ? Storage::url($companyProfile->logo) : null,
             'faviconUrl' => $companyProfile ? Storage::url($companyProfile->favicon) : null,
-            'company_name' => $companyProfile ? $companyProfile->company_name : null,
-            'companyTagline' => $companyProfile ? $companyProfile->tagline : null,
-            'companyDescription' => $companyProfile ? $companyProfile->description : null,
-            'companyAddress' => $companyProfile ? $companyProfile->address : null,
-            'companyPhone' => $companyProfile ? $companyProfile->phone : null,
-            'companyEmail' => $companyProfile ? $companyProfile->email : null,
-            'companyWebsite' => $companyProfile ? $companyProfile->website : null,
+            'company_name' => $companyProfile->company_name ?? null,
+            'companyTagline' => $companyProfile->tagline ?? null,
+            'companyDescription' => $companyProfile->description ?? null,
+            'companyAddress' => $companyProfile->address ?? null,
+            'companyPhone' => $companyProfile->phone ?? null,
+            'companyEmail' => $companyProfile->email ?? null,
+            'companyWebsite' => $companyProfile->website ?? null,
+
+            // Content
             'aboutus' => $aboutus,
             'pages' => $pages,
-            'services' => $services,
-            'servicepages' => $servicepages,
             'pageTitle' => $pages->pluck('name')->toArray(),
+            'services' => $services,
+            'servicepages' => $pages, // if same as above
+
+            // Subscribers
             'subscribers' => $subscribers,
             'subscribersCount' => $subscribers->count(),
             'subscribersEmail' => $subscribers->pluck('email')->toArray(),
             'subscribersCreatedAt' => $subscribers->pluck('created_at')->toArray(),
             'subscribersUpdatedAt' => $subscribers->pluck('updated_at')->toArray(),
             'subscribersId' => $subscribers->pluck('id')->toArray(),
+
+            // Users
             'user' => $user,
             'recentUsers' => $recentUsers,
-            'recentUsersCount' => $recentUsersCount,
+            'recentUsersCount' => $recentUsers->count(),
+
+            // Appointments
+            'doctorAppointment' => $doctorAppointment,
+
+            // Broadcasts
+            'broadcasts' => $broadcasts,
+            'broadcastsCount' => $broadcasts->count(),
+            // Features
+            'features' => $features,
+            // Feature Details
+            'featureDetails' => $featureDetails,
         ]);
     }
 }

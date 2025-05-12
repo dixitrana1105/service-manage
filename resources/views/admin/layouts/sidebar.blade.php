@@ -33,7 +33,8 @@
                         request()->is('admin/clients*') || request()->is('admin/users*') || request()->is('admin/appointments*') ||
                         request()->is('admin/whatsapp*') || request()->is('admin/about*') || request()->is('admin/business-automation*') ||
                         request()->is('admin/pages*') || request()->is('admin/theme*') || request()->is('admin/ticket*') || request()->is('admin/subscribers*') ||
-                        request()->is('admin/admin/admin-whatsapp-preview*') || request()->is('admin/admin/whatsapp-flow*');
+                        request()->is('admin/admin/admin-whatsapp-preview*') || request()->is('admin/admin/whatsapp-flow*') ||
+                        request()->is('admin/admin/doctor-appointments*') || request()->is('admin/admin/broadcasts*');
                 @endphp
 
                 <li class="nav-item has-treeview {{ $createCompanyOpen ? 'menu-open' : '' }}">
@@ -151,6 +152,13 @@
                                 <p>Manage Subscriber</p>
                             </a>
                         </li>
+	<li class="nav-item">
+                            <a href="{{ route('admin.doctor-appointments.index') }}"
+                                class="nav-link {{ request()->is('admin/admin/doctor-appointments*') ? 'active' : '' }}">
+                                <i class="fas fa-user-md nav-icon"></i>
+                                <p>Manage Doctor Appointment</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
 
@@ -171,6 +179,14 @@
                         <p>Manage Service Detail Section</p>
                     </a>
                 </li>
+	<li class="nav-item">
+                    <a href="{{ route('admin.broadcasts.index') }}"
+                        class="nav-link {{ request()->is('admin/admin/broadcasts*') ? 'active' : '' }}">
+                        <i class="bi bi-megaphone-fill text-primary bg-white text-dark rounded-circle d-inline-flex align-items-center justify-content-center"
+                            style="width: 30px; height: 30px;"></i>&nbsp;
+                        <p>Manage Broadcast Section</p>
+                    </a>
+                </li>
 
                 <li class="nav-item">
                     <a href="{{ route('admin.company_growth.index') }}"
@@ -178,6 +194,20 @@
                         <i class="fas fa-chart-line bg-white text-dark rounded-circle d-inline-flex align-items-center justify-content-center"
                             style="width: 30px; height: 30px; font-size: 16px;"></i>&nbsp;
                         <p>Manage Company Growth</p>
+                    </a>
+                </li>
+	<li class="nav-item">
+                    <a href="{{ route('admin.features.index') }}"
+                        class="nav-link {{ request()->is('admin/features*') ? 'active' : '' }}">
+                        <i class="fas fa-star nav-icon"></i>
+                        <p>Manage Features</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.feature-detail-sections.index') }}"
+                        class="nav-link {{ request()->is('admin/feature-detail-sections*') ? 'active' : '' }}">
+                        <i class="fas fa-star-half-alt nav-icon"></i>
+                        <p>Manage Feature Detail Section</p>
                     </a>
                 </li>
 

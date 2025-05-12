@@ -43,7 +43,7 @@
             <div class="mb-5">
                 <label for="video" class="form-label">Video</label><br>
                 @if($preview && $preview->video)
-                    <video width="200" controls class="mb-2 d-block">
+                    <video width="200"  class="mb-2 d-block">
                         <source src="{{ asset($preview->video) }}" type="video/mp4">
                     </video>
                 @endif

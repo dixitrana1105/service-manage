@@ -28,7 +28,7 @@ class ThemeSectionController extends Controller
             'section' => 'required|string|unique:theme_sections,section',
             'title' => 'nullable|string|max:255',
             'subtitle' => 'nullable|string',
-            'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,wmv|max:10240', // max 10MB
+            'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,wmv|max:10240' // max 10MB
         ]);
 
         $mediaPath = null;
@@ -36,17 +36,24 @@ class ThemeSectionController extends Controller
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads/theme'), $filename);
-            $mediaPath = 'uploads/theme/' . $filename;
 
-            // Determine media type
+            // Get MIME type before moving
             $mime = $file->getMimeType();
+
             if (str_starts_with($mime, 'video')) {
                 $mediaType = 'video';
             } elseif (str_starts_with($mime, 'image')) {
                 $mediaType = 'image';
             }
+
+            // Generate unique filename
+            $filename = time() . '_' . $file->getClientOriginalName();
+
+            // Move file to public/uploads/theme/
+            $file->move(public_path('uploads/theme'), $filename);
+
+            // Save the path for DB
+            $mediaPath = 'uploads/theme/' . $filename;
         }
 
         // Save to database
@@ -58,9 +65,6 @@ class ThemeSectionController extends Controller
         $themeSection->media_type = $mediaType;
         $themeSection->save();
 
-
-
-        // Optionally, you can set the media_type based on the file extension
         return redirect()->route('admin.theme.index')->with('success', 'Theme section created successfully.');
     }
 

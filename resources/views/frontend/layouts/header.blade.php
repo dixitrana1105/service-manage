@@ -13,12 +13,12 @@
   <meta name="description" content="" />
   <meta name="author" content="" />
 
-  <link rel="shortcut icon" href="{{ asset('assets/frontend-2/images/logo.jpg')}}" type="">
-
+  <link rel="shortcut icon" href="{{ asset('public/assets/frontend-2/images/logo.jpg')}}" type="">
+  <meta name="google-site-verification" content="twyEj-0j5ZRHx_0EYxtrbJ6w7oroQk2xgeTZnyaM12Q" />
   <title> Service Management </title>
 
   <!-- bootstrap core css -->
-  <link rel="stylesheet" type="text/css" href="{{ asset('assets/frontend-2/css/bootstrap.css')}}" />
+  <link rel="stylesheet" type="text/css" href="{{ asset('public/assets/frontend-2/css/bootstrap.css')}}" />
 
 
   <!-- fonts style -->
@@ -29,16 +29,21 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
 
   <!-- font awesome style -->
-  <link href="{{ asset('assets/frontend-2/css/font-awesome.min.css')}}" rel="stylesheet" />
+  <link href="{{ asset('public/assets/frontend-2/css/font-awesome.min.css')}}" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <!-- Font Awesome CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     integrity="sha512-K5A6vjgD/Z1V5OUvTp+d7Yr4T+zBKnFZzctyD/9bEmZDxvmFlVYPSNe+1iYZrGRVWRazvGoLUWcrfwkSgyg3jw=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <!-- Custom styles for this template -->
-  <link href="{{ asset('assets/frontend-2/css/style.css')}}" rel="stylesheet" />
+  <link href="{{ asset('public/assets/frontend-2/css/style.css')}}" rel="stylesheet" />
   <!-- responsive style -->
-  <link href="{{ asset('assets/frontend-2/css/responsive.css')}}" rel="stylesheet" />
+  <link href="{{ asset('public/assets/frontend-2/css/responsive.css')}}" rel="stylesheet" />
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
   <!-- Font Awesome CDN (place inside your <head>) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -296,10 +301,10 @@
     @if (Request::is('/'))
     <div class="hero_bg_box">
       <div class="bg_img_box">
-      <img src="{{ asset('assets/frontend-2/images/hero1.jpeg') }}" alt="">
+        <img src="{{ asset('public/assets/frontend-2/images/hero1.jpeg') }}" alt="">
       </div>
     </div>
-  @endif
+    @endif
 
     <!-- header section strats -->
     <header class="header_section {{ Request::is('/') ? 'transparent-header' : 'green-header' }}">
@@ -309,16 +314,16 @@
         <nav class="navbar navbar-expand-lg custom_nav-container ">
           <a class="navbar-brand" href="{{ url('/') }}">
             @foreach ($companyProfile as $Profile)
-          @if(!empty($Profile->company_logo))
-        <img class="rounded-circle bg-light" src="{{ asset($Profile->company_logo) }}" alt="Company Logo"
-        style="max-height: 50px;">
-      @endif
-          @if (!empty($Profile->company_name))
-        <span class="typing-animation"
-        style="font-family: 'Times New Roman', Times, serif;">{{ $Profile->company_name }}</span>
-      @endif
+            @if(!empty($Profile->company_logo))
+            <img class="rounded-circle bg-light" src="{{ asset($Profile->company_logo) }}" alt="Company Logo"
+              style="max-height: 50px;">
+            @endif
+            @if (!empty($Profile->company_name))
+            <span class="typing-animation" style="font-family: 'Times New Roman', Times, serif;">{{
+              $Profile->company_name }}</span>
+            @endif
           </a>
-        @endforeach
+          @endforeach
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class=""> </span>
@@ -330,45 +335,55 @@
                 <a class="nav-link" href="{{ url('/') }}"> Home <span class="sr-only">(current)</span></a>
               </li>
               @if ($pages->isNotEmpty())
-          @foreach ($pages as $page)
-        <li class="nav-item">
-        <a class="nav-link" href="{{ url('page/' . $page->slug) }}">{{ $page->name }}</a>
-        </li>
-      @endforeach
-        @endif
+              @foreach ($pages as $page)
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url('page/' . $page->slug) }}">{{ $page->name }}</a>
+              </li>
+              @endforeach
+              @endif
               <li class="nav-item dropdown">
                 <a class="nav-link" href="{{ url('/services') }}">Services</a>
                 <ul class="dropdown-menu">
                   <li><a href="{{ route('whatsapp-chatbot.index') }}">WhatsApp Chatbot</a></li>
                   <li><a href="{{ route('business-automation.index') }}">Business Automation</a></li>
                   <li><a href="{{ route('customer.appointment.create') }}">Book Appoinment</a></li>
+                  <li><a href="{{ route('doctorappoinment.create') }}">Doctor Appoinment</a></li>
+                  <li><a href="{{ route('broadcasts.latest') }}">Broadcast </a></li>
                 </ul>
               </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link" href="{{ route('features.frontend') }}">Features</a>
+                <!-- <ul class="dropdown-menu">
+                <li><a href="#">Book Appoinment</a></li>
+                  <li><a href="#">Doctor Appoinment</a></li>
+                  <li><a href="#">Broadcast </a></li>
+                </ul> -->
+              </li>
               <li class="nav-item">
-                <a class="nav-link" href="{{ route('why.index') }}">Why Us</a> 
+                <a class="nav-link" href="{{ route('why.index') }}">Why Us</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{{ route('team.index') }}">Team</a>
               </li>
 
               @if(Auth::check())
-          <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            <i class="fa fa-user"></i> My Account
-          </a>
-          <div class="dropdown-menu" aria-labelledby="accountDropdown">
-            <a class="dropdown-item" href="{{ route('account.profile') }}">Profile</a>
-            <a class="dropdown-item" href="{{ route('account.logout') }}">Logout</a>
-          </div>
-          </li>
-        @else
-        <li class="nav-item">
-        <a class="nav-link" href="{{ route('account.login') }}">
-          <i class="fa fa-fingerprint"></i>&nbsp; Login
-        </a>
-        </li>
-      @endif
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  <i class="fa fa-user"></i> My Account
+                </a>
+                <div class="dropdown-menu" aria-labelledby="accountDropdown">
+                  <a class="dropdown-item" href="{{ route('account.profile') }}">Profile</a>
+                  <a class="dropdown-item" href="{{ route('account.logout') }}">Logout</a>
+                </div>
+              </li>
+              @else
+              <li class="nav-item">
+                <a class="nav-link" href="{{ route('account.login') }}">
+                  <i class="fa fa-fingerprint"></i>&nbsp; Login
+                </a>
+              </li>
+              @endif
 
             </ul>
           </div>

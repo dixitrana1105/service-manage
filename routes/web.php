@@ -15,18 +15,23 @@ use App\Http\Controllers\Admin\ThemeSectionController;
 use App\Http\Controllers\Admin\TicketFeatureController;
 use App\Http\Controllers\Admin\AboutUsController;
 use App\Http\Controllers\Admin\WhatsappFlowController;
+use App\Http\Controllers\Admin\DoctorAppointmentController; // Doctor Appointment For Admin
 use App\Http\Controllers\Admin\WhatsAppPreviewController;
 use App\Http\Controllers\Admin\AboutController as AdminAboutController;
 use App\Http\Controllers\Admin\WhatsAppChatbotController as AdminWhatsAppChatbotController;
+use App\Http\Controllers\Admin\FeatureController; // Feature For Admin
+use App\Http\Controllers\Admin\FeatureDetailSectionController; // Feature Detail Section For Admin
 use App\Http\Controllers\Admin\AdminBusinessAutomationController;
 use App\Http\Controllers\frontend\WhyController;
 use App\Http\Controllers\frontend\HomeController;
 use App\Http\Controllers\frontend\TeamController;
 use App\Http\Controllers\frontend\AboutController;
+use App\Http\Controllers\frontend\FeatureFrontendController; // Feature Frontend for Frontend
 use App\Http\Controllers\frontend\WhatsappChatbotController;
 use App\Http\Controllers\frontend\BusinessAutomationController;
 use App\Http\Controllers\frontend\Logincontroller;
 use App\Http\Controllers\frontend\frontPageController;
+use App\Http\Controllers\AppointmentController; // Doctor Appointment For Frontend
 use App\Http\Controllers\CompanyProfileController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\CustomerAppointmentController;
@@ -39,6 +44,8 @@ use App\Http\Controllers\WhatsappAppointmentController;
 use App\Http\Controllers\Admin\ServiceDetailSectionsController;
 use App\Http\Controllers\SubscribeController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Admin\BroadcastController; // Broadcast Controller
+use App\Http\Controllers\FrontController;   // Frontend Controller For Broadcast
 
 
 
@@ -64,7 +71,10 @@ Route::group(['prefix' => 'account'], function () {
     });
 });
 
-
+// Route for displaying the Features section
+Route::get('/features', [FeatureFrontendController::class, 'index'])->name('features.frontend');
+Route::get('/features/{id}', [FeatureFrontendController::class, 'show'])->name('feature.detail');
+Route::get('/features/{id}/details', [FeatureFrontendController::class, 'show'])->name('frontend.feature-detail');
 
 
 Route::get('/home', [FrontendHomeController::class, 'index'])->name('home');
@@ -109,6 +119,10 @@ Route::get('/admin/teams/{id}/edit', [AdminTeamController::class, 'edit'])->name
 Route::put('/admin/teams/{id}', [AdminTeamController::class, 'update'])->name('admin.team.update');
 Route::delete('/admin/teams/{id}', [AdminTeamController::class, 'destroy'])->name('admin.team.destroy');
 
+// Frontend broadcast display
+Route::get('/broadcasts/latest', [FrontController::class, 'latestBroadcasts'])->name('broadcasts.latest');
+Route::get('/broadcasts/date/{date}', [HomeController::class, 'byDate'])->name('broadcasts.byDate');
+
 
 // Route for Subscriber In Admin And Frontend
 // Subscription Routes
@@ -150,6 +164,13 @@ Route::prefix('admin')->group(function () {
 Route::prefix('customer')->group(function () {
     Route::get('appointment', [CustomerAppointmentController::class, 'create'])->name('customer.appointment.create');
     Route::post('appointment', [CustomerAppointmentController::class, 'store'])->name('customer.appointment.store');
+});
+
+// Frontend
+Route::prefix('doctorappoinment')->group(function () {
+    Route::get('book-doctor-appoinment', [AppointmentController::class, 'create'])->name('doctorappoinment.create');
+    Route::post('book-appointment', [AppointmentController::class, 'store'])->name('appointment.store');
+    // Route::get('book-appointment', [AppointmentController::class, 'showAppointmentForm'])->name('appointment.show');
 });
 
 // frontend route for displaying services
@@ -233,6 +254,15 @@ Route::prefix('admin')->group(function () {
         // Route for clearing cache
         Route::get('/clear-cache', [HomeController::class, 'clearCache'])->name('admin.clearCache');
 
+       // ------------------------------------
+        // Doctor Appoinment Management Routes
+        // ------------------------------------
+        Route::prefix('admin')->name('admin.')->group(function () {
+            Route::resource('doctor-appointments', DoctorAppointmentController::class);
+        });
+         // Route to handle changing the status of a doctor appointment
+         Route::post('doctor_appointments/change-status', [DoctorAppointmentController::class, 'changeStatus'])->name('doctor_appointments.changeStatus');	
+
         // ------------------------------------
         // User Management Routes
         // ------------------------------------
@@ -243,6 +273,24 @@ Route::prefix('admin')->group(function () {
         Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
         Route::delete('/users/{users}', [UserController::class, 'destroy'])->name('users.destroy');
         Route::get('/user/details/{id}', [UserController::class, 'show'])->name('user.details');
+
+        // Admin routes For Broadcast
+        Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () {
+            Route::resource('broadcasts', BroadcastController::class);
+        });
+     
+     // ------------------------------------
+        // Feature Management Routes
+        // ------------------------------------
+        Route::prefix('admin')->group(function () {
+            Route::resource('features', FeatureController::class)->names('admin.features');
+        });
+     // ------------------------------------
+        // Feature Deteils Management Routes
+        // ------------------------------------
+        Route::prefix('admin')->group(function () {
+            Route::resource('feature-detail-sections', FeatureDetailSectionController::class)->names('admin.feature-detail-sections');
+        });	
 
 
         Route::get('aboutus', [AboutUsController::class, 'index'])->name('admin.aboutus.index');
@@ -352,7 +400,13 @@ Route::prefix('admin')->group(function () {
         // ------------------------------------
         // AppointmentController Route (For Whatsapp)
         // ------------------------------------
-
+        // Optional: Name all routes clearly (for reference)
+        Route::get('whatsapp', [AdminWhatsAppChatbotController::class, 'index'])->name('admin.whatsapp.index');
+        Route::get('whatsapp/create', [AdminWhatsAppChatbotController::class, 'create'])->name('admin.whatsapp.create');
+        Route::post('whatsapp', [AdminWhatsAppChatbotController::class, 'store'])->name('admin.whatsapp.store');
+        Route::get('whatsapp/{id}/edit', [AdminWhatsAppChatbotController::class, 'edit'])->name('admin.whatsapp.edit');
+        Route::put('whatsapp/{id}', [AdminWhatsAppChatbotController::class, 'update'])->name('admin.whatsapp.update');
+        Route::delete('whatsapp/{id}', [AdminWhatsAppChatbotController::class, 'destroy'])->name('admin.whatsapp.destroy');
 
         // ------------------------------------
         // Chatbot Management Routes
